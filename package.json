@@ -1,0 +1,500 @@
+{
+  "name": "zovo-mongodb-client",
+  "displayName": "MongoDB Client & MongoDB GUI: Query, Edit Documents, Aggregation & Indexes",
+  "description": "Free MongoDB client and MongoDB GUI: edit documents in a grid (nested fields too) or as JSON, query with filter, sort and projection, aggregation with stage preview, explain, indexes, streamed import and export. Atlas, DocumentDB, Cosmos DB, FerretDB. No telemetry, no keep-alive.",
+  "version": "0.1.0",
+  "publisher": "zovo",
+  "license": "MIT",
+  "icon": "icon.png",
+  "galleryBanner": {
+    "color": "#0F2A1F",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.90.0",
+    "node": ">=18"
+  },
+  "categories": [
+    "Data Science",
+    "Other"
+  ],
+  "keywords": [
+    "mongodb client",
+    "mongodb gui",
+    "mongodb",
+    "mongo",
+    "mongodb viewer",
+    "mongodb query",
+    "nosql",
+    "documents",
+    "aggregation",
+    "mongosh",
+    "atlas",
+    "documentdb",
+    "ferretdb",
+    "cosmos db",
+    "database client",
+    "database",
+    "json",
+    "bson",
+    "index",
+    "read only",
+    "free"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": true
+    },
+    "virtualWorkspaces": true
+  },
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "zovoMongo",
+          "title": "MongoDB",
+          "icon": "media/activity.svg"
+        }
+      ]
+    },
+    "views": {
+      "zovoMongo": [
+        {
+          "id": "zovoMongo.connections",
+          "name": "MongoDB Explorer",
+          "icon": "media/activity.svg",
+          "contextualTitle": "MongoDB"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "zovoMongo.connections",
+        "contents": "No connections yet. Add a MongoDB server: local, Atlas, DocumentDB, Cosmos DB or FerretDB. Free, no sign-in.\n[Add Connection](command:zovoMongo.addConnection)\nThe extension connects only to the servers you add here, and only when you open them. [Get started](command:zovoMongo.openWalkthrough)"
+      }
+    ],
+    "commands": [
+      {
+        "command": "zovoMongo.addConnection",
+        "title": "Add Connection",
+        "category": "MongoDB",
+        "icon": "$(add)"
+      },
+      {
+        "command": "zovoMongo.editConnection",
+        "title": "Edit Connection",
+        "category": "MongoDB",
+        "icon": "$(edit)"
+      },
+      {
+        "command": "zovoMongo.deleteConnection",
+        "title": "Delete Connection",
+        "category": "MongoDB",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "zovoMongo.disconnect",
+        "title": "Disconnect",
+        "category": "MongoDB",
+        "icon": "$(debug-disconnect)"
+      },
+      {
+        "command": "zovoMongo.refresh",
+        "title": "Refresh",
+        "category": "MongoDB",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "zovoMongo.toggleReadOnly",
+        "title": "Toggle Read-Only for This Connection",
+        "category": "MongoDB",
+        "icon": "$(lock)"
+      },
+      {
+        "command": "zovoMongo.openCollection",
+        "title": "Open Documents",
+        "category": "MongoDB",
+        "icon": "$(table)"
+      },
+      {
+        "command": "zovoMongo.openAggregation",
+        "title": "New Aggregation Pipeline",
+        "category": "MongoDB",
+        "icon": "$(filter)"
+      },
+      {
+        "command": "zovoMongo.exportCollection",
+        "title": "Export Collection (JSON, JSONL, CSV)…",
+        "category": "MongoDB",
+        "icon": "$(export)"
+      },
+      {
+        "command": "zovoMongo.importDocuments",
+        "title": "Import Documents (JSON, JSONL, CSV)…",
+        "category": "MongoDB",
+        "icon": "$(cloud-upload)"
+      },
+      {
+        "command": "zovoMongo.insertDocument",
+        "title": "Insert Document",
+        "category": "MongoDB",
+        "icon": "$(add)"
+      },
+      {
+        "command": "zovoMongo.createIndex",
+        "title": "Create Index…",
+        "category": "MongoDB",
+        "icon": "$(add)"
+      },
+      {
+        "command": "zovoMongo.dropIndex",
+        "title": "Drop Index…",
+        "category": "MongoDB",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "zovoMongo.createCollection",
+        "title": "Create Collection…",
+        "category": "MongoDB",
+        "icon": "$(add)"
+      },
+      {
+        "command": "zovoMongo.dropCollection",
+        "title": "Drop Collection…",
+        "category": "MongoDB",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "zovoMongo.dropDatabase",
+        "title": "Drop Database…",
+        "category": "MongoDB",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "zovoMongo.copyName",
+        "title": "Copy Name",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.showError",
+        "title": "Show Error",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.openWalkthrough",
+        "title": "Get Started",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.supportDeveloper",
+        "title": "Support the developer",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.moreViewers",
+        "title": "More free tools by Zovo",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.schemaAnalysis",
+        "title": "Schema Analysis (Pro)",
+        "category": "MongoDB",
+        "icon": "$(symbol-structure)"
+      },
+      {
+        "command": "zovoMongo.compareCollections",
+        "title": "Compare Two Collections (Pro)",
+        "category": "MongoDB",
+        "icon": "$(diff)"
+      },
+      {
+        "command": "zovoMongo.openJsonSchema",
+        "title": "Open Last Schema as $jsonSchema",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.enterLicenseKey",
+        "title": "Zovo: Enter license key",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.getPro",
+        "title": "Zovo: Get Pro (USD 19 once, all Zovo extensions)",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.unlockWithSponsors",
+        "title": "Zovo: Unlock Pro with GitHub Sponsors",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.removeLicense",
+        "title": "Zovo: Remove license from this editor",
+        "category": "MongoDB"
+      },
+      {
+        "command": "zovoMongo.payWithPayPal",
+        "title": "Zovo: Pay for Pro with PayPal (USD 19, team of 5 USD 59)",
+        "category": "MongoDB"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "zovoMongo.addConnection",
+          "when": "view == zovoMongo.connections",
+          "group": "navigation@1"
+        },
+        {
+          "command": "zovoMongo.refresh",
+          "when": "view == zovoMongo.connections",
+          "group": "navigation@2"
+        },
+        {
+          "command": "zovoMongo.compareCollections",
+          "when": "view == zovoMongo.connections && config.zovoMongo.showProFeatures",
+          "group": "2_more@1"
+        },
+        {
+          "command": "zovoMongo.moreViewers",
+          "when": "view == zovoMongo.connections",
+          "group": "3_zovo@1"
+        },
+        {
+          "command": "zovoMongo.supportDeveloper",
+          "when": "view == zovoMongo.connections",
+          "group": "3_zovo@2"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "zovoMongo.openCollection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)/",
+          "group": "inline@1"
+        },
+        {
+          "command": "zovoMongo.openAggregation",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)/",
+          "group": "inline@2"
+        },
+        {
+          "command": "zovoMongo.openCollection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)/",
+          "group": "1_open@1"
+        },
+        {
+          "command": "zovoMongo.openAggregation",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)/",
+          "group": "1_open@2"
+        },
+        {
+          "command": "zovoMongo.exportCollection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)/",
+          "group": "2_data@1"
+        },
+        {
+          "command": "zovoMongo.importDocuments",
+          "when": "view == zovoMongo.connections && viewItem == collection",
+          "group": "2_data@2"
+        },
+        {
+          "command": "zovoMongo.insertDocument",
+          "when": "view == zovoMongo.connections && viewItem == collection",
+          "group": "2_data@3"
+        },
+        {
+          "command": "zovoMongo.createIndex",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|indexes)$/",
+          "group": "3_index@1"
+        },
+        {
+          "command": "zovoMongo.schemaAnalysis",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)/ && config.zovoMongo.showProFeatures",
+          "group": "4_pro@1"
+        },
+        {
+          "command": "zovoMongo.compareCollections",
+          "when": "view == zovoMongo.connections && viewItem =~ /^collection/ && config.zovoMongo.showProFeatures",
+          "group": "4_pro@2"
+        },
+        {
+          "command": "zovoMongo.dropCollection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(collection|view)$/",
+          "group": "8_danger@1"
+        },
+        {
+          "command": "zovoMongo.dropIndex",
+          "when": "view == zovoMongo.connections && viewItem == index",
+          "group": "8_danger@1"
+        },
+        {
+          "command": "zovoMongo.createCollection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^database/",
+          "group": "1_open@1"
+        },
+        {
+          "command": "zovoMongo.dropDatabase",
+          "when": "view == zovoMongo.connections && viewItem == database",
+          "group": "8_danger@1"
+        },
+        {
+          "command": "zovoMongo.refresh",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(connection|database|collection|indexes)/",
+          "group": "1_open@9"
+        },
+        {
+          "command": "zovoMongo.editConnection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^connection/",
+          "group": "3_conn@1"
+        },
+        {
+          "command": "zovoMongo.toggleReadOnly",
+          "when": "view == zovoMongo.connections && viewItem =~ /^connection/",
+          "group": "3_conn@2"
+        },
+        {
+          "command": "zovoMongo.disconnect",
+          "when": "view == zovoMongo.connections && viewItem =~ /^connection/",
+          "group": "3_conn@3"
+        },
+        {
+          "command": "zovoMongo.deleteConnection",
+          "when": "view == zovoMongo.connections && viewItem =~ /^connection/",
+          "group": "3_conn@4"
+        },
+        {
+          "command": "zovoMongo.copyName",
+          "when": "view == zovoMongo.connections && viewItem =~ /^(database|collection|view|index)/",
+          "group": "9_copy@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "zovoMongo.showError",
+          "when": "false"
+        },
+        {
+          "command": "zovoMongo.copyName",
+          "when": "false"
+        },
+        {
+          "command": "zovoMongo.dropIndex",
+          "when": "false"
+        },
+        {
+          "command": "zovoMongo.dropDatabase",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "MongoDB Client",
+      "properties": {
+        "zovoMongo.pageSize": {
+          "type": "number",
+          "default": 50,
+          "minimum": 1,
+          "maximum": 1000,
+          "description": "Documents per page in the grid. \"Load more\" reads the next page from the open cursor."
+        },
+        "zovoMongo.connectTimeoutSeconds": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 120,
+          "description": "How long to wait for a server (server selection and connect timeout)."
+        },
+        "zovoMongo.idleCloseMinutes": {
+          "type": "number",
+          "default": 10,
+          "minimum": 1,
+          "maximum": 240,
+          "description": "Close a connection after this many minutes without an action. It opens again on the next action. Nothing is sent while it is closed."
+        },
+        "zovoMongo.queryTimeoutSeconds": {
+          "type": "number",
+          "default": 60,
+          "minimum": 0,
+          "maximum": 86400,
+          "description": "maxTimeMS for queries, aggregations and previews: the server stops a command after this many seconds. 0 = no limit. Exports have no limit."
+        },
+        "zovoMongo.showSupportLinks": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the small Rate, More free viewers and Sponsor links at the bottom of the documents view."
+        },
+        "zovoMongo.askForRating": {
+          "type": "boolean",
+          "default": true,
+          "description": "Ask at most twice whether you want to rate the extension: only after it worked in two sessions at least 4 hours apart, never after an error. Turn off to never ask."
+        },
+        "zovoMongo.showProFeatures": {
+          "type": "boolean",
+          "default": true,
+          "description": "Show the Zovo Pro tools (Schema Analysis, Compare Two Collections) in the menus. Turn off to hide them."
+        }
+      }
+    },
+    "walkthroughs": [
+      {
+        "id": "zovoMongo.start",
+        "title": "MongoDB Client: get started",
+        "description": "Connect, browse and edit documents, and run an aggregation.",
+        "steps": [
+          {
+            "id": "connect",
+            "title": "Add a connection",
+            "description": "Paste a connection string (mongodb:// or mongodb+srv://). The password goes to VS Code secret storage.\n[Add Connection](command:zovoMongo.addConnection)",
+            "media": {
+              "markdown": "walkthrough/connect.md"
+            },
+            "completionEvents": [
+              "onCommand:zovoMongo.addConnection"
+            ]
+          },
+          {
+            "id": "edit",
+            "title": "Query and edit documents",
+            "description": "Click a collection. Type a filter such as { status: \"active\" } and press Enter. Double-click a cell to edit it; the type is kept.",
+            "media": {
+              "markdown": "walkthrough/edit.md"
+            }
+          },
+          {
+            "id": "aggregate",
+            "title": "Aggregate with a stage preview",
+            "description": "Right-click a collection, New Aggregation Pipeline, then Preview stages to see the first 20 documents after each stage.",
+            "media": {
+              "markdown": "walkthrough/aggregate.md"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "package": "node scripts/build.js --production && npx -y @vscode/vsce@3 package --no-dependencies",
+    "test": "node --test test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/theluckystrike/mongodb-client-vscode"
+  },
+  "bugs": {
+    "url": "https://github.com/theluckystrike/mongodb-client-vscode/issues"
+  },
+  "homepage": "https://github.com/theluckystrike/mongodb-client-vscode#readme",
+  "sponsor": {
+    "url": "https://github.com/sponsors/theluckystrike"
+  },
+  "dependencies": {
+    "mongodb": "6.22.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "@types/vscode": "~1.90.0"
+  }
+}
