@@ -441,11 +441,14 @@ function activate(context) {
   reg('schemaAnalysis', async (node) => {
     const t = await collectionTarget(node, 'Schema analysis');
     if (!t) return null;
-    if (!(await proApi.allow('Schema analysis', pro.SCHEMA_DETAIL))) return null;
+    const gate = await proApi.allow('Schema analysis', pro.SCHEMA_DETAIL);
+    if (!gate) return null;
     const s = await sessions.get(t.conn);
     const n = 1000;
     const docs = await vscode.window.withProgress({ location: vscode.ProgressLocation.Notification, title: `Sampling ${n.toLocaleString('en-US')} documents of ${t.collection}` }, () => s.sampleDocs(t.database, t.collection, n));
-    return pro.showSchema(vscode, context, t, docs);
+    const shown = await pro.showSchema(vscode, context, t, docs);
+    await gate.done(); // the try counts only now, with the schema on screen
+    return shown;
   });
   reg('openJsonSchema', () => pro.openJsonSchema(vscode));
   reg('compareCollections', async (node) => {
@@ -453,9 +456,12 @@ function activate(context) {
     if (!a) return null;
     const b = await collectionTarget(null, `Compare ${a.collection} with`);
     if (!b) return null;
-    if (!(await proApi.allow('Collection compare', pro.COMPARE_DETAIL))) return null;
+    const gate = await proApi.allow('Collection compare', pro.COMPARE_DETAIL);
+    if (!gate) return null;
     const [sa, sb] = [await sessions.get(a.conn), await sessions.get(b.conn)];
-    return pro.compareCollections(vscode, { a, b, sa, sb, labelA: `${store.get(a.conn).name} · ${a.database}.${a.collection}`, labelB: `${store.get(b.conn).name} · ${b.database}.${b.collection}` });
+    const r = await pro.compareCollections(vscode, { a, b, sa, sb, labelA: `${store.get(a.conn).name} · ${a.database}.${a.collection}`, labelB: `${store.get(b.conn).name} · ${b.database}.${b.collection}` });
+    if (r && r.res && !r.res.stopped) await gate.done(); // a finished compare report counts; Cancel or an error costs nothing
+    return r;
   });
 
   // Close every connection when the window closes.

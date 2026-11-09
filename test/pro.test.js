@@ -33,10 +33,26 @@ test('Pro is on, with 3 free tries per tool, then the unlock question', async ()
   const ctx = context();
   const p = pro.createPro(fakeVscode, ctx);
   p.license.requirePro = async () => false; // the user closes the explanation
-  for (let i = 1; i <= 3; i++) assert.strictEqual(await p.allow('Schema analysis', 'x'), true, `try ${i}`);
+  for (let i = 1; i <= 3; i++) { const g = await p.allow('Schema analysis', 'x'); assert.ok(g, `try ${i}`); await g.done(); }
   assert.match(shown[shown.length - 1], /Free try 3 of 3/);
   assert.strictEqual(await p.allow('Schema analysis', 'x'), false, 'the 4th start asks to unlock');
-  assert.strictEqual(await p.allow('Collection compare', 'x'), true, 'tries are counted per tool');
+  assert.ok(await p.allow('Collection compare', 'x'), 'tries are counted per tool');
+});
+
+test('VERP3: a free try counts only when done() runs (Escape, Cancel or an error after the gate costs nothing)', async () => {
+  const ctx = context();
+  const p = pro.createPro(fakeVscode, ctx);
+  p.license.requirePro = async () => false;
+  for (let i = 0; i < 5; i++) assert.ok(await p.allow('Schema analysis', 'x'), 'a start without a result never uses a try');
+  assert.deepStrictEqual(ctx.globalState.get('zovoMongo.proTries', {}), {});
+  const g = await p.allow('Schema analysis', 'x');
+  await g.done(); await g.done();
+  assert.deepStrictEqual(ctx.globalState.get('zovoMongo.proTries', {}), { 'Schema analysis': 1 }, 'done() counts once');
+  p.license.requirePro = async () => true; // unlocked in the explanation
+  ctx.globalState.update('zovoMongo.proTries', { 'Schema analysis': 3 });
+  const g2 = await p.allow('Schema analysis', 'x');
+  assert.ok(g2); await g2.done();
+  assert.deepStrictEqual(ctx.globalState.get('zovoMongo.proTries', {}), { 'Schema analysis': 3 }, 'no count after an unlock');
 });
 
 test('schema analysis: presence, types, ranges, mixed fields', () => {
